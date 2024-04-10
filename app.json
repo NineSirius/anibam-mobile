@@ -1,30 +1,42 @@
 {
-  "expo": {
-    "name": "anibam-mobile",
-    "slug": "anibam-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "expo": {
+        "name": "anibam-mobile",
+        "slug": "anibam-mobile",
+        "version": "0.0.1",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            [
+                "expo-font",
+                {
+                    "fonts": [
+                        "./assets/fonts/Rubik/Rubik-Black.ttf",
+                        "./assets/fonts/Rubik/Rubik-Bold.ttf",
+                        "./assets/fonts/Rubik/Rubik-SemiBold.ttf",
+                        "./assets/fonts/Rubik/Rubik-Medium.ttf",
+                        "./assets/fonts/Rubik/Rubik-Regular.ttf"
+                    ]
+                }
+            ]
+        ]
     }
-  }
 }
