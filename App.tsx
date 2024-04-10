@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { BottomNavigation, Text } from 'react-native-paper'
-import HomeScreen from './src/screens/HomeScreen'
-import ProfileScreen from './src/screens/ProfileScreen'
+import { BottomNavigation, IconButton, Text } from 'react-native-paper'
 import { createStackNavigator } from '@react-navigation/stack'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import TitleScreen from './src/screens/TitleScreen'
 import { useFonts } from 'expo-font'
+import HomeScreen from './src/screens/HomeScreen'
+import ProfileScreen from './src/screens/ProfileScreen'
+import TitleScreen from './src/screens/TitleScreen'
+import Icon from 'react-native-vector-icons/Ionicons'
+import SettingsScreen from './src/screens/SettingsScreen'
 
 const Stack = createStackNavigator()
 
@@ -41,7 +41,22 @@ const Profile = () => {
                 <Stack.Screen
                     name="Profile"
                     component={ProfileScreen}
-                    options={{ headerTitle: 'Профиль' }}
+                    options={({ navigation }) => ({
+                        headerTitle: 'Профиль',
+                        headerRight: () => (
+                            <IconButton
+                                icon="cog"
+                                onPress={() => navigation.navigate('Settings')}
+                            />
+                        ),
+                    })}
+                />
+                <Stack.Screen
+                    name="Settings"
+                    component={SettingsScreen}
+                    options={{
+                        headerTitle: 'Настройки',
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
