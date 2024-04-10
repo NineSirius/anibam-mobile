@@ -112,6 +112,7 @@ const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
                                             fontWeight={600}
                                             size={18}
                                             numberOfLines={2}
+                                            style={{ marginTop: 10 }}
                                         >
                                             {title.names.ru}
                                         </MyText>

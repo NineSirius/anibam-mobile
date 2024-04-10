@@ -19,11 +19,14 @@ import {
     RefreshControl,
     TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
+import { useBottomSheet } from '../containers/BottomSheetContext'
 
 const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [refreshing, setRefreshing] = useState<boolean>(false)
     const [titleInfo, setTitleInfo] = useState<TitleT | null>(null)
+
+    const { openBottomSheet } = useBottomSheet()
 
     useEffect(() => {
         getTitle()
@@ -67,7 +70,13 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                     status,
                 ]
 
-                setTitleInfo({ ...title, info: infoArr })
+                setTitleInfo({
+                    ...title,
+                    info: infoArr,
+                    episodes: Object.keys(title.player.list).map(
+                        (key) => title.player.list[key],
+                    ),
+                })
             })
             .finally(() => {
                 setLoading(false)
@@ -142,7 +151,21 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
             >
                 <Button
                     style={{ flex: 1 }}
-                    onPress={() => Alert.alert('Сообщение', 'Пока недоступно')}
+                    onPress={() =>
+                        openBottomSheet(
+                            <View>
+                                {titleInfo &&
+                                    titleInfo.episodes.map((episode) => (
+                                        <View>
+                                            <MyText>
+                                                {episode.episode} -{' '}
+                                                {episode.name}
+                                            </MyText>
+                                        </View>
+                                    ))}
+                            </View>,
+                        )
+                    }
                 >
                     Смотреть
                 </Button>

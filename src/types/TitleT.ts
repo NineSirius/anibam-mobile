@@ -24,6 +24,7 @@ export type TitleT = {
     blocked: blockedT
     player: playerT
     torrents: torrentsT
+    episodes: playerListT[]
     info: any[]
 }
 

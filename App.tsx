@@ -8,8 +8,10 @@ import { useFonts } from 'expo-font'
 import HomeScreen from './src/screens/HomeScreen'
 import ProfileScreen from './src/screens/ProfileScreen'
 import TitleScreen from './src/screens/TitleScreen'
-import Icon from 'react-native-vector-icons/Ionicons'
-import SettingsScreen from './src/screens/SettingsScreen'
+import Settings, { settings } from './src/screens/Settings'
+import SettingsScreen from './src/screens/Settings/SettingsScreen'
+import { BottomSheetProvider } from './src/containers/BottomSheetContext'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const Stack = createStackNavigator()
 
@@ -54,10 +56,17 @@ const Profile = () => {
                 <Stack.Screen
                     name="Settings"
                     component={SettingsScreen}
-                    options={{
-                        headerTitle: 'Настройки',
-                    }}
+                    options={{ headerTitle: 'Настройки' }}
                 />
+                {settings.map((item) => (
+                    <Stack.Screen
+                        navigationKey={item.name}
+                        key={item.name}
+                        name={item.name}
+                        component={item.component}
+                        options={item.options}
+                    />
+                ))}
             </Stack.Navigator>
         </NavigationContainer>
     )
@@ -94,18 +103,22 @@ export default function App() {
 
     return (
         <SafeAreaProvider>
-            <BottomNavigation
-                navigationState={{ index, routes }}
-                onIndexChange={setIndex}
-                renderScene={renderScene}
-                sceneAnimationEnabled
-                sceneAnimationType="shifting"
-                barStyle={{
-                    backgroundColor: '#fff',
-                    borderTopColor: '#d6d6d6',
-                    borderTopWidth: 0.5,
-                }}
-            />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <BottomSheetProvider>
+                    <BottomNavigation
+                        navigationState={{ index, routes }}
+                        onIndexChange={setIndex}
+                        renderScene={renderScene}
+                        sceneAnimationEnabled
+                        sceneAnimationType="shifting"
+                        barStyle={{
+                            backgroundColor: '#fff',
+                            borderTopColor: '#d6d6d6',
+                            borderTopWidth: 0.5,
+                        }}
+                    />
+                </BottomSheetProvider>
+            </GestureHandlerRootView>
         </SafeAreaProvider>
     )
 }
