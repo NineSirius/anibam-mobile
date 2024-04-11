@@ -1,7 +1,7 @@
 import { StyleProp, Text, TextStyle } from 'react-native'
 
-type MyTextProps = {
-    children: React.ReactNode
+export type MyTextProps = {
+    children?: React.ReactNode
     numberOfLines?: number
     fontWeight?: 800 | 700 | 600 | 500 | 400
     size?: number
@@ -24,7 +24,6 @@ const MyText: React.FC<MyTextProps> = ({
     const initialStyles: StyleProp<TextStyle> = {
         fontFamily: `Rubik-${fontWeight ? fontWeight : '400'}`,
         fontSize: size ? size : 16,
-        textAlign: center ? 'center' : 'auto',
         lineHeight: lineHeight ? lineHeight : size ? size * 1.2 : 18,
         color: color ? color : '#111',
     }

@@ -8,21 +8,42 @@ import { useFonts } from 'expo-font'
 import HomeScreen from './src/screens/HomeScreen'
 import ProfileScreen from './src/screens/ProfileScreen'
 import TitleScreen from './src/screens/TitleScreen'
-import Settings, { settings } from './src/screens/Settings'
+import { settings } from './src/screens/Settings'
 import SettingsScreen from './src/screens/Settings/SettingsScreen'
-import { BottomSheetProvider } from './src/containers/BottomSheetContext'
+import {
+    BottomSheetProvider,
+    useBottomSheet,
+} from './src/containers/BottomSheetContext'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import SearchScreen from './src/screens/SearchScreen'
+import SearchBottomSheet from './src/components/SearchBottomSheet'
 
 const Stack = createStackNavigator()
 
 const Home = () => {
+    const { openBottomSheet } = useBottomSheet()
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
                     name="Home"
                     component={HomeScreen}
-                    options={{ headerTitle: 'AniBam' }}
+                    options={({ navigation }) => ({
+                        headerTitle: 'AniBam',
+                        headerRight: () => (
+                            <IconButton
+                                onPress={() =>
+                                    openBottomSheet(
+                                        <SearchBottomSheet
+                                            navigation={navigation}
+                                        />,
+                                    )
+                                }
+                                icon="magnify"
+                            />
+                        ),
+                    })}
                 />
                 <Stack.Screen
                     name="Title"
@@ -30,6 +51,11 @@ const Home = () => {
                     options={({ route }: { route: any }) => ({
                         title: route.params ? route.params.names.ru : 'Аниме',
                     })}
+                />
+                <Stack.Screen
+                    name="Search"
+                    component={SearchScreen}
+                    options={{ headerTitle: 'Поиск' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

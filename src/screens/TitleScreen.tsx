@@ -55,7 +55,11 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                 }
                 const episodeCount = {
                     label: 'Количество эпизодов',
-                    value: `${title.player.episodes.last} эп.`,
+                    value: title.player.episodes.first
+                        ? title.player.episodes.first !== 1
+                            ? `с ${title.player.episodes.first} по ${title.player.episodes.last} эп.`
+                            : `${title.player.episodes.last} эп.`
+                        : '0 эп.',
                 }
                 const status = {
                     label: 'Статус',
@@ -151,21 +155,49 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
             >
                 <Button
                     style={{ flex: 1 }}
-                    onPress={() =>
-                        openBottomSheet(
-                            <View>
-                                {titleInfo &&
-                                    titleInfo.episodes.map((episode) => (
-                                        <View>
-                                            <MyText>
-                                                {episode.episode} -{' '}
-                                                {episode.name}
-                                            </MyText>
-                                        </View>
-                                    ))}
-                            </View>,
-                        )
-                    }
+                    onPress={() => {
+                        if (titleInfo.episodes.length > 0) {
+                            openBottomSheet(
+                                <ScrollView
+                                    style={{
+                                        paddingHorizontal: 15,
+                                        gap: 10,
+                                    }}
+                                >
+                                    <MyText fontWeight={600} size={18}>
+                                        Выберите серию
+                                    </MyText>
+                                    {titleInfo &&
+                                        titleInfo.episodes.map((episode) => (
+                                            <Button
+                                                key={episode.uuid}
+                                                style={{
+                                                    marginTop: 10,
+                                                    justifyContent:
+                                                        'flex-start',
+                                                }}
+                                                onPress={() =>
+                                                    alert('Hello World')
+                                                }
+                                                textProps={{
+                                                    size: 18,
+                                                    numberOfLines: 1,
+                                                }}
+                                            >
+                                                {episode.name
+                                                    ? `${episode.episode} серия - ${episode.name}`
+                                                    : `${episode.episode} серия`}
+                                            </Button>
+                                        ))}
+                                </ScrollView>,
+                            )
+                        } else {
+                            Alert.alert(
+                                'Сообщение',
+                                'У этого аниме нету эпизодов',
+                            )
+                        }
+                    }}
                 >
                     Смотреть
                 </Button>

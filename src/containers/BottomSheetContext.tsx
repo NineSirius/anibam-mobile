@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
+import BottomSheet, {
+    BottomSheetView,
+    BottomSheetBackdrop,
+} from '@gorhom/bottom-sheet'
 
 interface BottomSheetContextType {
     openBottomSheet: (content: any) => void
@@ -33,18 +36,25 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         <BottomSheetContext.Provider
             value={{ openBottomSheet, closeBottomSheet }}
         >
+            {children}
             <BottomSheet
                 index={bottomSheetIndex}
                 ref={bottomSheetRef}
                 onChange={(index) => setBottomSheetIndex(index)}
-                snapPoints={[200, 500]}
+                backdropComponent={(props) => (
+                    <BottomSheetBackdrop
+                        {...props}
+                        disappearsOnIndex={0}
+                        appearsOnIndex={1}
+                    />
+                )}
+                snapPoints={[10, 500]}
                 onClose={closeBottomSheet}
             >
                 <BottomSheetView style={{ flex: 1 }}>
                     {bottomSheetContent}
                 </BottomSheetView>
             </BottomSheet>
-            {children}
         </BottomSheetContext.Provider>
     )
 }

@@ -1,14 +1,20 @@
 import { TouchableRipple } from 'react-native-paper'
-import MyText from './MyText'
+import MyText, { MyTextProps } from './MyText'
 import { StyleProp, TextStyle, View } from 'react-native'
 
 type ButtonProps = {
     children: React.ReactNode
     style?: StyleProp<TextStyle>
+    textProps?: MyTextProps
     onPress: () => void
 }
 
-const Button: React.FC<ButtonProps> = ({ children, style, onPress }) => {
+const Button: React.FC<ButtonProps> = ({
+    children,
+    style,
+    textProps,
+    onPress,
+}) => {
     const intialStyles = {
         flex: 1,
         flexDirection: 'row',
@@ -28,7 +34,9 @@ const Button: React.FC<ButtonProps> = ({ children, style, onPress }) => {
             onPress={onPress}
             rippleColor="#cfcfcf"
         >
-            <MyText center>{children}</MyText>
+            <MyText center {...textProps}>
+                {children}
+            </MyText>
         </TouchableRipple>
     )
 }

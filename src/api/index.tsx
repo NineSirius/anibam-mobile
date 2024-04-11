@@ -25,3 +25,8 @@ export const getTitlesBySeason = async (
     )
     return data
 }
+
+export const getTitleBySearch = async (query?: string) => {
+    const data = await anibamApi.get(`title/search?search=${query}`)
+    return data
+}
