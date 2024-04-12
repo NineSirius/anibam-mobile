@@ -7,7 +7,7 @@ import { ScreenT } from '../types/ScreenT'
 import { format } from 'date-fns'
 
 const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
     const [refreshing, setRefreshing] = useState<boolean>(false)
     const [currentSeasonString, setCurrentSeasonString] = useState<
         null | string
@@ -22,7 +22,7 @@ const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
         if (isRefresh) {
             setRefreshing(true)
         }
-        setLoading(false)
+        setLoading(true)
 
         const currentYear = format(new Date(), 'yyyy')
         const currentSeason = format(new Date(), 'Q')

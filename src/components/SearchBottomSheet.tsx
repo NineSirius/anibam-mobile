@@ -6,43 +6,56 @@ import { getTitleBySearch } from '../api'
 import MyText from './UI/MyText'
 import { TouchableRipple } from 'react-native-paper'
 import { useBottomSheet } from '../containers/BottomSheetContext'
+import Button from './UI/Button'
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
+import { Loader } from '../containers/Loader'
+import SearchCard from './SearchCard'
 
 const SearchBottomSheet = ({ navigation }) => {
     const [searchResults, setSearchResults] = useState<TitleT[]>([])
     const [searchTimeout, setSearchTimeout] = useState<any>(null)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const { closeBottomSheet } = useBottomSheet()
 
     const fetchTitles = async (query: string) => {
-        getTitleBySearch(query).then((resp) => setSearchResults(resp.data.list))
+        setLoading(true)
+        getTitleBySearch(query)
+            .then((resp) => setSearchResults(resp.data.list))
+            .finally(() => setLoading(false))
     }
 
     return (
         <View style={{ flex: 1, paddingHorizontal: 10 }}>
             <TextField
+                inputStyle={{ fontSize: 18 }}
                 placeholder="Введите название или описание"
                 onChange={(value) => {
                     clearTimeout(searchTimeout)
-                    const timeout = setTimeout(() => fetchTitles(value), 300)
+                    const timeout = setTimeout(() => fetchTitles(value), 500)
                     setSearchTimeout(timeout)
                 }}
             />
 
-            <View>
-                {searchResults.map((title) => (
-                    <TouchableRipple
-                        rippleColor="#cfcfcf"
-                        onPress={() => {
-                            closeBottomSheet()
-                            navigation.navigate('Title', title)
-                        }}
-                    >
-                        <View>
-                            <MyText>{title.names.ru}</MyText>
-                        </View>
-                    </TouchableRipple>
-                ))}
-            </View>
+            {loading ? (
+                <Loader />
+            ) : (
+                <BottomSheetScrollView style={{ marginTop: 15, gap: 10 }}>
+                    {searchResults.map((title) => (
+                        <SearchCard
+                            title={title.names.ru}
+                            desc={title.description}
+                            poster={`https://anilibria.tv${title.posters.small.url}`}
+                            type={title.type.string}
+                            episodesCount={title.player.episodes.last}
+                            onPress={() => {
+                                closeBottomSheet()
+                                navigation.navigate('Title', title)
+                            }}
+                        />
+                    ))}
+                </BottomSheetScrollView>
+            )}
         </View>
     )
 }

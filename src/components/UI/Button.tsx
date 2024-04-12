@@ -16,7 +16,6 @@ const Button: React.FC<ButtonProps> = ({
     onPress,
 }) => {
     const intialStyles = {
-        flex: 1,
         flexDirection: 'row',
         paddingVertical: 10,
         justifyContent: 'center',

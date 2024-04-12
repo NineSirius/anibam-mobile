@@ -19,7 +19,8 @@
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
-            }
+            },
+            "package": "com.ninesirius.anibam"
         },
         "web": {
             "favicon": "./assets/favicon.png"
@@ -36,7 +37,18 @@
                         "./assets/fonts/Rubik/Rubik-Regular.ttf"
                     ]
                 }
+            ],
+            [
+                "expo-screen-orientation",
+                {
+                    "initialOrientation": "DEFAULT"
+                }
             ]
-        ]
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "333a65ef-1f57-4df1-94d8-a781d5c3d30c"
+            }
+        }
     }
 }

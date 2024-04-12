@@ -7,6 +7,7 @@ import {
     Image,
     Alert,
     ImageBackground,
+    Linking,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { getTitleByCode } from '../api'
@@ -20,13 +21,14 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
 import { useBottomSheet } from '../containers/BottomSheetContext'
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 
 const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [refreshing, setRefreshing] = useState<boolean>(false)
     const [titleInfo, setTitleInfo] = useState<TitleT | null>(null)
 
-    const { openBottomSheet } = useBottomSheet()
+    const { openBottomSheet, closeBottomSheet } = useBottomSheet()
 
     useEffect(() => {
         getTitle()
@@ -126,7 +128,11 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                         <MyText
                             color="#fff"
                             numberOfLines={2}
-                            style={{ marginTop: 10, paddingHorizontal: 15 }}
+                            style={{
+                                marginTop: 10,
+                                paddingHorizontal: 15,
+                                textAlign: 'center',
+                            }}
                             fontWeight={700}
                             size={24}
                             center
@@ -136,7 +142,11 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                     </TouchableWithoutFeedback>
                     <MyText
                         color="#f2f2f2"
-                        style={{ marginTop: 5, paddingHorizontal: 15 }}
+                        style={{
+                            marginTop: 5,
+                            paddingHorizontal: 15,
+                            textAlign: 'center',
+                        }}
                         center
                     >
                         {titleInfo.names.en}
@@ -158,8 +168,9 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                     onPress={() => {
                         if (titleInfo.episodes.length > 0) {
                             openBottomSheet(
-                                <ScrollView
+                                <View
                                     style={{
+                                        flex: 1,
                                         paddingHorizontal: 15,
                                         gap: 10,
                                     }}
@@ -167,29 +178,41 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                                     <MyText fontWeight={600} size={18}>
                                         Выберите серию
                                     </MyText>
-                                    {titleInfo &&
-                                        titleInfo.episodes.map((episode) => (
-                                            <Button
-                                                key={episode.uuid}
-                                                style={{
-                                                    marginTop: 10,
-                                                    justifyContent:
-                                                        'flex-start',
-                                                }}
-                                                onPress={() =>
-                                                    alert('Hello World')
-                                                }
-                                                textProps={{
-                                                    size: 18,
-                                                    numberOfLines: 1,
-                                                }}
-                                            >
-                                                {episode.name
-                                                    ? `${episode.episode} серия - ${episode.name}`
-                                                    : `${episode.episode} серия`}
-                                            </Button>
-                                        ))}
-                                </ScrollView>,
+                                    <BottomSheetScrollView>
+                                        {titleInfo &&
+                                            titleInfo.episodes.map(
+                                                (episode, index) => (
+                                                    <Button
+                                                        key={episode.uuid}
+                                                        style={{
+                                                            marginBottom: 10,
+                                                            justifyContent:
+                                                                'flex-start',
+                                                        }}
+                                                        onPress={() => {
+                                                            closeBottomSheet()
+                                                            navigation.navigate(
+                                                                'Watch',
+                                                                {
+                                                                    ...titleInfo,
+                                                                    activeEpisode:
+                                                                        index,
+                                                                },
+                                                            )
+                                                        }}
+                                                        textProps={{
+                                                            size: 18,
+                                                            numberOfLines: 1,
+                                                        }}
+                                                    >
+                                                        {episode.name
+                                                            ? `${episode.episode} серия - ${episode.name}`
+                                                            : `${episode.episode} серия`}
+                                                    </Button>
+                                                ),
+                                            )}
+                                    </BottomSheetScrollView>
+                                </View>,
                             )
                         } else {
                             Alert.alert(

@@ -1,9 +1,8 @@
-import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
 import { BottomNavigation, IconButton, Text } from 'react-native-paper'
 import { createStackNavigator } from '@react-navigation/stack'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import HomeScreen from './src/screens/HomeScreen'
 import ProfileScreen from './src/screens/ProfileScreen'
@@ -17,6 +16,9 @@ import {
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import SearchScreen from './src/screens/SearchScreen'
 import SearchBottomSheet from './src/components/SearchBottomSheet'
+import WatchScreen from './src/screens/WatchScreen'
+import { Provider, useSelector } from 'react-redux'
+import { store } from './src/store'
 
 const Stack = createStackNavigator()
 
@@ -51,6 +53,11 @@ const Home = () => {
                     options={({ route }: { route: any }) => ({
                         title: route.params ? route.params.names.ru : 'Аниме',
                     })}
+                />
+                <Stack.Screen
+                    name="Watch"
+                    component={WatchScreen}
+                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name="Search"
@@ -98,7 +105,9 @@ const Profile = () => {
     )
 }
 
-export default function App() {
+const App = () => {
+    const visible = useSelector((store) => store.home.isBottomBar)
+
     const [fontsLoaded, fontError] = useFonts({
         'Rubik-800': require('./assets/fonts/Rubik/Rubik-Black.ttf'),
         'Rubik-700': require('./assets/fonts/Rubik/Rubik-Bold.ttf'),
@@ -138,6 +147,7 @@ export default function App() {
                         sceneAnimationEnabled
                         sceneAnimationType="shifting"
                         barStyle={{
+                            display: !visible ? 'none' : 'flex',
                             backgroundColor: '#fff',
                             borderTopColor: '#d6d6d6',
                             borderTopWidth: 0.5,
@@ -146,5 +156,13 @@ export default function App() {
                 </BottomSheetProvider>
             </GestureHandlerRootView>
         </SafeAreaProvider>
+    )
+}
+
+export default function Main() {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
     )
 }

@@ -51,9 +51,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
                 snapPoints={[10, 500]}
                 onClose={closeBottomSheet}
             >
-                <BottomSheetView style={{ flex: 1 }}>
-                    {bottomSheetContent}
-                </BottomSheetView>
+                {bottomSheetContent}
             </BottomSheet>
         </BottomSheetContext.Provider>
     )
