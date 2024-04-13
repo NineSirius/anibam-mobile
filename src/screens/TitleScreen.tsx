@@ -22,6 +22,8 @@ import {
 } from 'react-native-gesture-handler'
 import { useBottomSheet } from '../containers/BottomSheetContext'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
+import color from '../theme'
+import { useTheme } from '../containers/ThemeContext'
 
 const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
     const [loading, setLoading] = useState<boolean>(true)
@@ -29,6 +31,7 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
     const [titleInfo, setTitleInfo] = useState<TitleT | null>(null)
 
     const { openBottomSheet, closeBottomSheet } = useBottomSheet()
+    const { theme } = useTheme()
 
     useEffect(() => {
         getTitle()
@@ -99,7 +102,7 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
 
     return (
         <ScrollView
-            style={{ flex: 1, backgroundColor: '#fff' }}
+            style={{ flex: 1, backgroundColor: color[theme].bg }}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}

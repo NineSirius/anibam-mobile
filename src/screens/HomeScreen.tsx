@@ -6,6 +6,9 @@ import MyText from '../components/UI/MyText'
 import { ScreenT } from '../types/ScreenT'
 import { format } from 'date-fns'
 
+import color from '../theme'
+import { useTheme } from '../containers/ThemeContext'
+
 const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [refreshing, setRefreshing] = useState<boolean>(false)
@@ -13,6 +16,8 @@ const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
         null | string
     >(null)
     const [data, setData] = useState<any[]>([])
+
+    const { theme } = useTheme()
 
     useEffect(() => {
         getTitles()
@@ -57,7 +62,7 @@ const HomeScreen: React.FC<ScreenT> = ({ navigation }) => {
 
     return (
         <ScrollView
-            style={{ flex: 1, backgroundColor: '#fff' }}
+            style={{ flex: 1, backgroundColor: color[theme].bg }}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}

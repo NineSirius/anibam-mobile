@@ -3,15 +3,19 @@ import React from 'react'
 import MyText from '../components/UI/MyText'
 import Button from '../components/UI/Button'
 import { Alert, View } from 'react-native'
+import color from '../theme'
+import { useTheme } from '../containers/ThemeContext'
 
 const ProfileScreen = () => {
+    const { theme } = useTheme()
+
     return (
         <SafeAreaView
             style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#fff',
+                backgroundColor: color[theme].bg,
             }}
         >
             <MyText fontWeight={600} size={20}>

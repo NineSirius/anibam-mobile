@@ -1,6 +1,8 @@
 import { TouchableRipple } from 'react-native-paper'
 import MyText, { MyTextProps } from './MyText'
 import { StyleProp, TextStyle, View } from 'react-native'
+import { useTheme } from '../../containers/ThemeContext'
+import color from '../../theme'
 
 type ButtonProps = {
     children: React.ReactNode
@@ -15,12 +17,14 @@ const Button: React.FC<ButtonProps> = ({
     textProps,
     onPress,
 }) => {
+    const { theme } = useTheme()
+
     const intialStyles = {
         flexDirection: 'row',
         paddingVertical: 10,
         justifyContent: 'center',
         paddingHorizontal: 15,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: color[theme].button.bg,
         borderRadius: 5,
         overflow: 'hidden',
     }

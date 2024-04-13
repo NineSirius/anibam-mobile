@@ -3,6 +3,8 @@ import BottomSheet, {
     BottomSheetView,
     BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet'
+import colors from '../theme'
+import { useTheme } from './ThemeContext'
 
 interface BottomSheetContextType {
     openBottomSheet: (content: any) => void
@@ -14,9 +16,11 @@ const BottomSheetContext = createContext<BottomSheetContextType | null>(null)
 export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [bottomSheetIndex, setBottomSheetIndex] = useState<number>(0)
+    const [bottomSheetIndex, setBottomSheetIndex] = useState<number>(-1)
     const [bottomSheetContent, setBottomSheetContent] = useState<any>('')
+
     const bottomSheetRef = useRef<BottomSheet>(null)
+    const { theme } = useTheme()
 
     const openBottomSheet = (content: any) => {
         if (bottomSheetRef.current) {
@@ -29,6 +33,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
     const closeBottomSheet = () => {
         if (bottomSheetRef.current) {
             bottomSheetRef.current.close()
+            bottomSheetRef.current.snapToIndex(-1)
         }
     }
 
@@ -38,6 +43,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         >
             {children}
             <BottomSheet
+                backgroundStyle={{ backgroundColor: colors[theme].bg }}
                 index={bottomSheetIndex}
                 ref={bottomSheetRef}
                 onChange={(index) => setBottomSheetIndex(index)}
@@ -48,7 +54,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
                         appearsOnIndex={1}
                     />
                 )}
-                snapPoints={[10, 500]}
+                snapPoints={[1, 500]}
                 onClose={closeBottomSheet}
             >
                 {bottomSheetContent}
