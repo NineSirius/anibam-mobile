@@ -32,7 +32,6 @@ const WatchScreen: React.FC<ScreenT> = ({ navigation, route }) => {
 
     const videoRef = useRef<any>(null)
     const dispatch = useDispatch()
-    const { closeBottomSheet } = useBottomSheet()
 
     const handlePlaybackStatusUpdate = (status) => {
         setStatus(status)
@@ -58,19 +57,23 @@ const WatchScreen: React.FC<ScreenT> = ({ navigation, route }) => {
         setPlaybackRate(rate[0])
     }
     useEffect(() => {
-        closeBottomSheet()
         const lockOrientation = async () => {
             await ScreenOrientation.lockAsync(
                 ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT,
             )
         }
+        const unlockOrientation = async () => {
+            await ScreenOrientation.lockAsync(
+                ScreenOrientation.OrientationLock.PORTRAIT_UP,
+            )
+        }
+
         dispatch(disableBottomBar())
         lockOrientation()
 
         return () => {
             dispatch(enableBottomBar())
-            closeBottomSheet()
-            ScreenOrientation.unlockAsync()
+            unlockOrientation()
         }
     }, [])
 

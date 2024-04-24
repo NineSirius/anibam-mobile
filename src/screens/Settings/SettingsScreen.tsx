@@ -1,13 +1,13 @@
 import Button from '../../components/UI/Button'
 import MyText from '../../components/UI/MyText'
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Feather'
 import { View, Text, ScrollView, Image, useColorScheme } from 'react-native'
 import { useEffect, useState } from 'react'
 import { ScreenT } from '../../types/ScreenT'
 import { TouchableRipple } from 'react-native-paper'
 import { useBottomSheet } from '../../containers/BottomSheetContext'
 import { useTheme } from '../../containers/ThemeContext'
-import color from '../../theme'
+import colors from '../../theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Application from 'expo-application'
 import * as Updates from 'expo-updates'
@@ -40,7 +40,7 @@ const SettingsItem = ({
                     justifyContent: 'space-between',
                     paddingVertical: 15,
                     paddingHorizontal: 15,
-                    backgroundColor: color[theme].secondary_bg,
+                    backgroundColor: colors[theme].secondary_bg,
                     borderTopRightRadius: first && 10,
                     borderTopLeftRadius: first && 10,
                     borderBottomLeftRadius: end && 10,
@@ -51,7 +51,15 @@ const SettingsItem = ({
                     {title}
                 </MyText>
                 <MyText size={18}>
-                    {isActive ? <Icon name="checkmark" size={22} /> : value}
+                    {isActive ? (
+                        <Icon
+                            name="check"
+                            size={24}
+                            color={colors[theme].primary}
+                        />
+                    ) : (
+                        value
+                    )}
                 </MyText>
             </View>
         </TouchableRipple>
@@ -61,8 +69,6 @@ const SettingsItem = ({
 const SettingsScreen: React.FC<ScreenT> = ({ navigation }) => {
     const { theme, toggleTheme } = useTheme()
     const [settings, setSettings] = useState<any>(null)
-
-    const { openBottomSheet } = useBottomSheet()
 
     const storeData = async (key: string, value: any) => {
         try {
@@ -100,7 +106,7 @@ const SettingsScreen: React.FC<ScreenT> = ({ navigation }) => {
                 flex: 1,
                 paddingVertical: 10,
                 paddingHorizontal: 10,
-                backgroundColor: color[theme].bg,
+                backgroundColor: colors[theme].bg,
             }}
         >
             <MyText

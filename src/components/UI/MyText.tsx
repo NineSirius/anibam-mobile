@@ -29,7 +29,7 @@ const MyText: React.FC<MyTextProps> = ({
         fontFamily: `Rubik-${fontWeight ? fontWeight : '400'}`,
         fontSize: size ? size : 16,
         lineHeight: lineHeight ? lineHeight : size ? size * 1.2 : 18,
-        color: color ? color : themeColor[theme].text.color,
+        color: color ? color : themeColor[theme].text.color.primary,
     }
 
     //@ts-ignore

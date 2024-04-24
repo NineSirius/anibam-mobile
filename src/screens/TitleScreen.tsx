@@ -8,6 +8,7 @@ import {
     Alert,
     ImageBackground,
     Linking,
+    ToastAndroid,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { getTitleByCode } from '../api'
@@ -138,7 +139,6 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                             }}
                             fontWeight={700}
                             size={24}
-                            center
                         >
                             {titleInfo.names.ru}
                         </MyText>
@@ -150,7 +150,6 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                             paddingHorizontal: 15,
                             textAlign: 'center',
                         }}
-                        center
                     >
                         {titleInfo.names.en}
                     </MyText>
@@ -218,9 +217,9 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                                 </View>,
                             )
                         } else {
-                            Alert.alert(
-                                'Сообщение',
-                                'У этого аниме нету эпизодов',
+                            ToastAndroid.show(
+                                'У этого тайтла нету эпизодов',
+                                ToastAndroid.SHORT,
                             )
                         }
                     }}
@@ -229,7 +228,9 @@ const TitleScreen: React.FC<ScreenT> = ({ navigation, route }) => {
                 </Button>
                 <Button
                     style={{ flex: 0.1 }}
-                    onPress={() => Alert.alert('Сообщение', 'Пока недоступно')}
+                    onPress={() =>
+                        ToastAndroid.show('В разработке', ToastAndroid.SHORT)
+                    }
                 >
                     <Icon name="arrow-redo-outline" size={20} />
                 </Button>

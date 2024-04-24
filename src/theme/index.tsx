@@ -1,5 +1,6 @@
 const colors = {
     light: {
+        primary: '#007AFF',
         bg: '#fff',
         secondary_bg: '#f2f2f2',
         bottomBar: {
@@ -7,17 +8,26 @@ const colors = {
             activeColor: '#f3f3f3',
         },
         border: {
-            color: '#f2f2f2',
+            color: '#C7C7CC',
         },
         text: {
-            color: '#121212',
+            color: {
+                primary: '#121212',
+                secondary: '#333333',
+                input: '#838383',
+            },
         },
         button: {
             bg: '#f2f2f2',
+            color: {
+                primary: '#007AFF',
+                default: '#333',
+            },
         },
     },
 
     dark: {
+        primary: '#007AFF',
         bg: '#111',
         secondary_bg: '#222',
         bottomBar: {
@@ -28,10 +38,18 @@ const colors = {
             color: '#444',
         },
         text: {
-            color: '#f2f2f2',
+            color: {
+                primary: '#f2f2f2',
+                secondary: '#dbdbdb',
+                input: '#ffffff',
+            },
         },
         button: {
-            bg: '#333',
+            bg: '#222',
+            color: {
+                primary: '#007AFF',
+                default: '#f2f2f2',
+            },
         },
     },
 }

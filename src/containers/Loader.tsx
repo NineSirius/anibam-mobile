@@ -16,7 +16,7 @@ export const Loader = () => {
                 backgroundColor: colors[theme].bg,
             }}
         >
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={colors[theme].primary} />
         </View>
     )
 }

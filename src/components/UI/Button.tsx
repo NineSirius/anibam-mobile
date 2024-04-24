@@ -2,7 +2,7 @@ import { TouchableRipple } from 'react-native-paper'
 import MyText, { MyTextProps } from './MyText'
 import { StyleProp, TextStyle, View } from 'react-native'
 import { useTheme } from '../../containers/ThemeContext'
-import color from '../../theme'
+import colors from '../../theme'
 
 type ButtonProps = {
     children: React.ReactNode
@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
         paddingVertical: 10,
         justifyContent: 'center',
         paddingHorizontal: 15,
-        backgroundColor: color[theme].button.bg,
+        backgroundColor: colors[theme].button.bg,
         borderRadius: 5,
         overflow: 'hidden',
     }
@@ -37,7 +37,11 @@ const Button: React.FC<ButtonProps> = ({
             onPress={onPress}
             rippleColor="#cfcfcf"
         >
-            <MyText center {...textProps}>
+            <MyText
+                {...textProps}
+                fontWeight={600}
+                color={colors[theme].button.color.default}
+            >
                 {children}
             </MyText>
         </TouchableRipple>

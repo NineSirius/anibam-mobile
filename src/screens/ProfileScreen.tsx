@@ -2,7 +2,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
 import MyText from '../components/UI/MyText'
 import Button from '../components/UI/Button'
-import { Alert, View } from 'react-native'
+import { Alert, ToastAndroid, View } from 'react-native'
 import color from '../theme'
 import { useTheme } from '../containers/ThemeContext'
 
@@ -29,7 +29,9 @@ const ProfileScreen = () => {
                 }}
             >
                 <Button
-                    onPress={() => Alert.alert('Сообщение', 'В разработке')}
+                    onPress={() =>
+                        ToastAndroid.show('В разработке', ToastAndroid.SHORT)
+                    }
                 >
                     Авторизоваться
                 </Button>

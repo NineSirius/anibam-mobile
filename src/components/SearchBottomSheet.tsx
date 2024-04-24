@@ -28,7 +28,7 @@ const SearchBottomSheet = ({ navigation }) => {
     return (
         <View style={{ flex: 1, paddingHorizontal: 10 }}>
             <TextField
-                inputStyle={{ fontSize: 18 }}
+                inputStyle={{ fontSize: 16 }}
                 placeholder="Введите название или описание"
                 onChange={(value) => {
                     clearTimeout(searchTimeout)
@@ -43,6 +43,7 @@ const SearchBottomSheet = ({ navigation }) => {
                 <BottomSheetScrollView style={{ marginTop: 15, gap: 10 }}>
                     {searchResults.map((title) => (
                         <SearchCard
+                            key={title.id}
                             title={title.names.ru}
                             desc={title.description}
                             poster={`https://anilibria.tv${title.posters.small.url}`}

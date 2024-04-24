@@ -27,8 +27,12 @@ import * as SplashScreen from 'expo-splash-screen'
 import { Provider, useSelector } from 'react-redux'
 import { store } from './src/store'
 import colors from './src/theme'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { StatusBar } from 'expo-status-bar'
 
 const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 const Home = () => {
     const { openBottomSheet } = useBottomSheet()
@@ -36,6 +40,7 @@ const Home = () => {
 
     return (
         <NavigationContainer
+            independent
             theme={theme === 'dark' ? DarkTheme : DefaultTheme}
         >
             <Stack.Navigator>
@@ -85,6 +90,7 @@ const Profile = () => {
 
     return (
         <NavigationContainer
+            independent
             theme={theme === 'dark' ? DarkTheme : DefaultTheme}
         >
             <Stack.Navigator>
@@ -134,31 +140,10 @@ const App = () => {
         'Rubik-400': require('./assets/fonts/Rubik/Rubik-Regular.ttf'),
     })
 
-    const [index, setIndex] = useState(0)
-    const [routes] = useState([
-        {
-            key: 'home',
-            title: 'Главная',
-            focusedIcon: 'home',
-            unfocusedIcon: 'home-outline',
-        },
-        {
-            key: 'profile',
-            title: 'Профиль',
-            focusedIcon: 'account-circle',
-            unfocusedIcon: 'account-circle-outline',
-        },
-    ])
-
     useEffect(() => {
         if (fontsLoaded) {
             setAppIsReady(true)
         }
-    })
-
-    const renderScene = BottomNavigation.SceneMap({
-        home: Home,
-        profile: Profile,
     })
 
     const onLayoutRootView = useCallback(async () => {
@@ -172,29 +157,57 @@ const App = () => {
     }
 
     return (
-        <SafeAreaProvider onLayout={onLayoutRootView}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <BottomSheetProvider>
-                    <BottomNavigation
-                        navigationState={{ index, routes }}
-                        onIndexChange={setIndex}
-                        renderScene={renderScene}
-                        // sceneAnimationEnabled
-                        // sceneAnimationType="shifting"
-                        barStyle={{
-                            display: !visible ? 'none' : 'flex',
-                            backgroundColor: colors[theme].bottomBar.bg,
-                            borderTopColor: colors[theme].border.color,
-                            borderTopWidth: 0.5,
-                        }}
-                        activeIndicatorStyle={{
-                            backgroundColor:
-                                colors[theme].bottomBar.activeColor,
-                        }}
-                    />
-                </BottomSheetProvider>
-            </GestureHandlerRootView>
-        </SafeAreaProvider>
+        <>
+            <SafeAreaProvider onLayout={onLayoutRootView}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <BottomSheetProvider>
+                        <NavigationContainer
+                            theme={theme === 'dark' ? DarkTheme : DefaultTheme}
+                        >
+                            <Tab.Navigator>
+                                <Tab.Screen
+                                    name="Home"
+                                    component={Home}
+                                    options={{
+                                        title: 'Главная',
+                                        headerShown: false,
+                                        headerTitle: 'dsds',
+                                        tabBarStyle: {
+                                            display: visible ? 'flex' : 'none',
+                                        },
+                                        tabBarIcon: (props) => (
+                                            <Icon
+                                                name="home"
+                                                size={22}
+                                                color={props.color}
+                                            />
+                                        ),
+                                    }}
+                                />
+                                <Tab.Screen
+                                    name="Profile"
+                                    component={Profile}
+                                    options={{
+                                        title: 'Профиль',
+                                        headerShown: false,
+                                        tabBarStyle: {
+                                            display: visible ? 'flex' : 'none',
+                                        },
+                                        tabBarIcon: (props) => (
+                                            <Icon
+                                                name="person"
+                                                size={22}
+                                                color={props.color}
+                                            />
+                                        ),
+                                    }}
+                                />
+                            </Tab.Navigator>
+                        </NavigationContainer>
+                    </BottomSheetProvider>
+                </GestureHandlerRootView>
+            </SafeAreaProvider>
+        </>
     )
 }
 
